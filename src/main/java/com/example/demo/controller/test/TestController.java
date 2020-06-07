@@ -1,6 +1,8 @@
 package com.example.demo.controller.test;
 
+import com.example.demo.bl.user.UserService;
 import com.example.demo.blImpl.mail.MailService;
+import com.example.demo.po.User;
 import com.example.demo.util.CaptchaUtil;
 import com.example.demo.util.MyStringUtil;
 import com.example.demo.util.UploadUtil;
@@ -22,23 +24,25 @@ import java.util.Objects;
 public class TestController {
     @Autowired
     private MailService mailService;
+    @Autowired
+    private UserService userService;
     @GetMapping("/mailTest")
     @ResponseBody
     public ResponseVO mailTest(){
         mailService.sendMail("609607764@qq.com","验证码","您的验证码为:"+ MyStringUtil.getRandomString(10));
         return ResponseVO.buildSuccess("test success");
     }
-    @GetMapping("/captchaTest")
-    @ResponseBody
-    public void captchaTest(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
-        CaptchaUtil vc = new CaptchaUtil();
-        BufferedImage image = vc.getImage();
-        String text = vc.getText();
-        HttpSession httpSession = httpServletRequest.getSession();
-        httpSession.setAttribute("captchaCode", text);
-        CaptchaUtil.output(image, httpServletResponse.getOutputStream());
-        System.out.println(text);
-    }
+//    @GetMapping("/captchaTest")
+//    @ResponseBody
+//    public void captchaTest(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
+//        CaptchaUtil vc = new CaptchaUtil();
+//        BufferedImage image = vc.getImage();
+//        String text = vc.getText();
+//        HttpSession httpSession = httpServletRequest.getSession();
+//        httpSession.setAttribute("captchaCode", text);
+//        CaptchaUtil.output(image, httpServletResponse.getOutputStream());
+//        System.out.println(text);
+//    }
     @GetMapping("/uploadTest")
     public String uploadTest(){
         return "uploadTest";
@@ -62,5 +66,32 @@ public class TestController {
         }
         return ResponseVO.buildFailure("上传失败,请再试一次");
     }
+
+    @GetMapping("/userTest")
+    public String userTest(){
+        return "userTest";
+    }
+    @PostMapping("/userTest")
+    @ResponseBody
+    public ResponseVO userTest(@RequestParam String email,@RequestParam String password){
+        return userService.addUser(new User(email,password));
+    }
+
+    @GetMapping("/getAllUsers")
+    @ResponseBody
+    public ResponseVO getAllUsers(){
+        return userService.getAllUsers();
+    }
+
+    @PostMapping("/deleteUserByEmail")
+    @ResponseBody
+    public ResponseVO deleteUserByEmail(@RequestParam String email){
+        return userService.deleteUserByEmail(email);
+    }
+    @GetMapping("/test")
+    public String test(){
+        return "testPage";
+    }
+
 
 }

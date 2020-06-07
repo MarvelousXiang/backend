@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Page</title>
+</head>
+<body>
+<h1>file upload</h1>
+<img src="/api/captcha/getOneCaptcha">
+<form enctype="multipart/form-data" method="post" action="/uploadTest">
+    <input type="file" name="file" required/>
+    <input type="text" name="captcha" required>
+    <input type="submit" value="上传"/>
+</form>
+<h1>add a user</h1>
+<form action="/userTest" method="post">
+    <input name="email" type="text">
+    <input name="password" type="password">
+    <input name="add User" type="submit">
+</form>
+<h1>delete a user</h1>
+<form action="/deleteUserByEmail" method="post">
+    <input name="email" type="text">
+    <input name="delete a user" type="submit">
+</form>
+</body>
+</html>
