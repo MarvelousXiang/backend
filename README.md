@@ -121,7 +121,7 @@ public class ResponseVO {
 
 如果觉得缺少或需要用到哪些接口，可以在下面的表格中自行添加，以提示后端开发工作人员及时完成响应的功能。
 
-后端项目会上传到github，地址为https://github.com/SWargrave/backend，你们可以git clone下来运行，看一下能不能和前端项目集成。前端项目也赶快建一个github仓库，以便合作编程和后端开发人员clone下来运行。
+后端项目会上传到github，地址为https://github.com/SWargrave/backend ，你们可以git clone下来运行，看一下能不能和前端项目集成。前端项目也赶快建一个github仓库，以便合作编程和后端开发人员clone下来运行。
 
 实体类设计后续肯定会要修改的，比如说菜品总得要有一些图片吧，就光添加这个功能Dish类就肯定要修改了，因为要存储图片URL，至于如何修改，需要前后端开发人员开会协商后再定。
 
@@ -255,7 +255,7 @@ jpa里的dao层相当于MyBatis项目里的mapper层，如此项目里的UserDao
 
 ### 合作编程
 
-我会把所有代码上传到GitHub，地址为https://github.com/SWargrave/backend，你们点击Fork，然后会在你们的账户下创建一个这个仓库的拷贝，然后git clone你们拷贝到自己账户下的仓库到本地电脑，然后完成开发，然后push到远程仓库(这个仓库还是你们自己账户下的，就是你们Fork过去的)，然后再到https://github.com/SWargrave/backend界面，点击New pull request，就可以把你们的修改合并到我的仓库。（整个工作流程其实和软工二大作业也差不多）
+我会把所有代码上传到GitHub，地址为https://github.com/SWargrave/backend ，你们点击Fork，然后会在你们的账户下创建一个这个仓库的拷贝，然后git clone你们拷贝到自己账户下的仓库到本地电脑，然后完成开发，然后push到远程仓库(这个仓库还是你们自己账户下的，就是你们Fork过去的)，然后再到https://github.com/SWargrave/backend 界面，点击New pull request，就可以把你们的修改合并到我的仓库。（整个工作流程其实和软工二大作业也差不多）
 
 ![image.png](https://i.loli.net/2020/06/09/tI9gEPyuZrQwADN.png)
 
