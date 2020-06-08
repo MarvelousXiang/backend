@@ -7,6 +7,8 @@ import com.example.demo.vo.ResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -16,6 +18,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseVO addUser(User user) {
         try{
+            user.setCreateDate((new SimpleDateFormat("yyyy-MM-dd")).format(new Date(System.currentTimeMillis())));
             userDao.save(user);
         }catch (Exception e){
             return ResponseVO.buildFailure("用户名或邮箱已存在");

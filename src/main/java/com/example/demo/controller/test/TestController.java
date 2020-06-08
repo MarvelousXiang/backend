@@ -1,8 +1,12 @@
 package com.example.demo.controller.test;
 
+import com.example.demo.bl.dish.DishService;
 import com.example.demo.blImpl.mail.MailServiceImpl;
+import com.example.demo.enums.DishCategory;
+import com.example.demo.enums.DishTaste;
 import com.example.demo.util.MyStringUtil;
 import com.example.demo.util.UploadUtil;
+import com.example.demo.vo.DishVO;
 import com.example.demo.vo.ResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +24,8 @@ import java.util.Objects;
 public class TestController {
     @Autowired
     private MailServiceImpl mailService;
+    @Autowired
+    private DishService dishService;
 
     @GetMapping("/mailTest")
     public String mainTest(){
@@ -81,5 +87,17 @@ public class TestController {
 
         }
         return ResponseVO.buildFailure("文件上传失败,请再试一次");
+    }
+
+    @GetMapping("/tempTest")
+    @ResponseBody
+    public String test(){
+        DishVO dishVO=new DishVO();
+        dishVO.setName("ads");
+        dishVO.setDishTaste(DishTaste.valueOf("la"));
+        dishVO.setDishCategory(DishCategory.Shucai);
+        dishVO.setPrice(23.21);
+        dishService.addDish(dishVO);
+        return "ss";
     }
 }

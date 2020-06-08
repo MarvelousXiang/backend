@@ -36,4 +36,13 @@ public class Likes {
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
+
+    public Likes(){
+
+    }
+
+    public Likes(Integer userId,Integer dishId){
+        this.userId=userId;
+        this.dishId=dishId;
+    }
 }

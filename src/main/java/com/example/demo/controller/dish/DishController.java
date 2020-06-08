@@ -1,6 +1,8 @@
 package com.example.demo.controller.dish;
 
 import com.example.demo.bl.dish.DishService;
+import com.example.demo.enums.DishCategory;
+import com.example.demo.enums.DishTaste;
 import com.example.demo.vo.DishVO;
 import com.example.demo.vo.ResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,16 +27,18 @@ public class DishController {
     }
     @GetMapping("/getDishByCategory")
     public ResponseVO getDishByCategory(@RequestParam String category){
-        //TODO
-        return null;
+        return dishService.getDishByCategory(DishCategory.valueOf(category));
     }
     @GetMapping("/getDishByTaste")
     public ResponseVO getDishByTaste(@RequestParam String taste){
-        //TODO
-        return null;
+        return dishService.getDishByTaste(DishTaste.valueOf(taste));
     }
     @PostMapping("/addDish")
     public ResponseVO addDish(@RequestBody DishVO dishVO){
         return dishService.addDish(dishVO);
+    }
+    @PostMapping("/deleteDish")
+    public ResponseVO deleteDish(@RequestParam Integer dishId){
+        return dishService.deleteDish(dishId);
     }
 }

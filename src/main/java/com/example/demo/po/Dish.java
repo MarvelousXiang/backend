@@ -22,6 +22,16 @@ public class Dish {
     private double price;
     @Column
     private String createDate;
+    @Column
+    private Integer numOfLikes;
+
+    public Integer getNumOfLikes() {
+        return numOfLikes;
+    }
+
+    public void setNumOfLikes(Integer numOfLikes) {
+        this.numOfLikes = numOfLikes;
+    }
 
     public Integer getId() {
         return id;
