@@ -16,7 +16,7 @@ public class UploadUtil {
     //    private static final String DOMAIN="http://qb876xjwm.bkt.clouddn.com";
     private static final String DOMAIN="http://file.jwargrave.com";
     private static final String BUCKET_NAME="jwargrave";
-    public static String uploadImage(FileInputStream file, String key) {
+    public static String uploadFile(FileInputStream file, String key) {
         Configuration cfg = new Configuration(Zone.zone0());
         UploadManager uploadManager = new UploadManager(cfg);
         try {

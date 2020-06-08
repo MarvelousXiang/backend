@@ -8,8 +8,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface UserDao extends JpaRepository<User,Integer> {
-    @Query("delete from User where email=:email")
+    @Query("delete from User where email=:email or userName=:userName")
     @Modifying
     @Transactional
-    int deleteUserByEmail(@Param("email") String email);
+    int deleteUser(@Param("userName") String userName,@Param("email") String email);
+
+    @Query("update User set password=:newPassword where email=:email and password=:oldPassword")
+    @Modifying
+    @Transactional
+    int updatePassword(@Param("email") String email,@Param("oldPassword") String oldPassword,@Param("newPassword") String newPassword);
 }

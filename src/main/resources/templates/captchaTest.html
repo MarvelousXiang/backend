@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>captchaTest</title>
+</head>
+<body>
+<h1>输入下图的验证码,大小写可忽略</h1>
+<img src="/api/captcha/getOneCaptcha">
+<form action="/captchaTest" method="post">
+    <input name="captchaCode" type="text">
+    <input name="submit" type="submit">
+</form>
+</body>
+</html>

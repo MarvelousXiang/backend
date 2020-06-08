@@ -1,16 +1,16 @@
 package com.example.demo.vo;
 
 public class RegisterVO {
+    private String userName;
     private String email;
     private String password;
-    private String mailCode;
 
-    public String getMailCode() {
-        return mailCode;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setMailCode(String mailCode) {
-        this.mailCode = mailCode;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getEmail() {

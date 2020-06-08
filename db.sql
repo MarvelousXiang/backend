@@ -1,2 +1,2 @@
-drop database if exists template;
-create database template;
+drop database if exists wedb;
+create database wedb;

@@ -1,5 +1,7 @@
 package com.example.demo.po;
 
+import com.example.demo.vo.RegisterVO;
+
 import javax.persistence.*;
 
 @Entity
@@ -9,10 +11,20 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Integer id;
-    @Column(unique = true)
+    @Column(unique = true,nullable = false)
+    private String userName;
+    @Column(unique = true,nullable = false)
     private String email;
     @Column
     private String password;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public Integer getId() {
         return id;
@@ -40,8 +52,14 @@ public class User {
 
     public User() {
     }
-    public User(String email,String password){
+    public User(String userName,String email,String password){
+        this.userName=userName;
         this.email=email;
         this.password=password;
+    }
+    public User(RegisterVO registerVO){
+        this.userName=registerVO.getUserName();
+        this.email=registerVO.getEmail();
+        this.password=registerVO.getPassword();
     }
 }

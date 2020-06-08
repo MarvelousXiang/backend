@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/template?serverTimezone=CTT&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/wedb?serverTimezone=CTT&characterEncoding=UTF-8
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -30,3 +30,6 @@ spring:
     open-in-view: true
   thymeleaf:
     cache: false
+
+server:
+  port: 80

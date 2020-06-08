@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 
 @Component
-public class MailService {
+public class MailServiceImpl {
     @Resource
     private JavaMailSender javaMailSender;
     @Value("${spring.mail.username}")

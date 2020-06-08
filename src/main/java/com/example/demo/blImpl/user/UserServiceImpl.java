@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
         try{
             userDao.save(user);
         }catch (Exception e){
-            return ResponseVO.buildFailure("用户邮箱已存在");
+            return ResponseVO.buildFailure("用户名或邮箱已存在");
         }
         return ResponseVO.buildSuccess("注册成功");
     }
@@ -29,11 +29,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseVO deleteUserByEmail(String email) {
-        int r = userDao.deleteUserByEmail(email);
+    public ResponseVO deleteUser(String userName,String email) {
+        if(!"".equals(userName)&&!"".equals(email)){
+            return ResponseVO.buildFailure("未知异常,删除失败");
+        }
+        int r = userDao.deleteUser(userName,email);
         if(r==1){
             return ResponseVO.buildSuccess("用户删除成功");
         }
         return ResponseVO.buildFailure("用户不存在,删除失败");
+    }
+
+    @Override
+    public ResponseVO updatePassword(String email, String oldPassword, String newPassword) {
+        int r = userDao.updatePassword(email, oldPassword, newPassword);
+        if(r==1){
+            return ResponseVO.buildSuccess("密码修改成功");
+        }
+        return ResponseVO.buildFailure("密码修改失败");
     }
 }

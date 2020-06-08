@@ -1,97 +1,85 @@
 package com.example.demo.controller.test;
 
-import com.example.demo.bl.user.UserService;
-import com.example.demo.blImpl.mail.MailService;
-import com.example.demo.po.User;
-import com.example.demo.util.CaptchaUtil;
+import com.example.demo.blImpl.mail.MailServiceImpl;
 import com.example.demo.util.MyStringUtil;
 import com.example.demo.util.UploadUtil;
 import com.example.demo.vo.ResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.Objects;
 
 @Controller
 public class TestController {
     @Autowired
-    private MailService mailService;
-    @Autowired
-    private UserService userService;
+    private MailServiceImpl mailService;
+
     @GetMapping("/mailTest")
-    @ResponseBody
-    public ResponseVO mailTest(){
-        mailService.sendMail("609607764@qq.com","验证码","您的验证码为:"+ MyStringUtil.getRandomString(10));
-        return ResponseVO.buildSuccess("test success");
+    public String mainTest(){
+        return "mailTest";
     }
-//    @GetMapping("/captchaTest")
-//    @ResponseBody
-//    public void captchaTest(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
-//        CaptchaUtil vc = new CaptchaUtil();
-//        BufferedImage image = vc.getImage();
-//        String text = vc.getText();
-//        HttpSession httpSession = httpServletRequest.getSession();
-//        httpSession.setAttribute("captchaCode", text);
-//        CaptchaUtil.output(image, httpServletResponse.getOutputStream());
-//        System.out.println(text);
-//    }
+    @PostMapping("/mailTest")
+    public String mainTest(@RequestParam String mail, HttpServletRequest httpServletRequest){
+        String mailCode= MyStringUtil.getRandomString(6);
+        httpServletRequest.getSession().setAttribute("mailCode",mailCode);
+        mailService.sendMail(mail,"邮箱验证码","您的邮箱验证码为:"+mailCode);
+        return "mailTest2";
+    }
+    @PostMapping("/mailTest2")
+    @ResponseBody
+    public ResponseVO mailTest2(@RequestParam String mailCode,HttpServletRequest httpServletRequest){
+        try{
+            if(String.valueOf(httpServletRequest.getSession().getAttribute("mailCode")).equals(mailCode)){
+                return ResponseVO.buildSuccess("邮箱验证码正确");
+            }
+        }catch (Exception ignored){
+
+        }
+        return ResponseVO.buildFailure("邮箱验证码错误");
+    }
+
+    @GetMapping("/captchaTest")
+    public String captchaTest(){
+        return "captchaTest";
+    }
+    @PostMapping("/captchaTest")
+    @ResponseBody
+    public ResponseVO captchaTest(@RequestParam String captchaCode,HttpServletRequest httpServletRequest){
+        try {
+            if((String.valueOf(httpServletRequest.getSession().getAttribute("captchaCode"))).toLowerCase().equals(captchaCode.toLowerCase())){
+                return ResponseVO.buildSuccess("图形验证码正确");
+            }
+        }catch (Exception ignored){
+
+        }
+        return ResponseVO.buildFailure("图形验证码不正确");
+    }
+
     @GetMapping("/uploadTest")
     public String uploadTest(){
         return "uploadTest";
     }
     @PostMapping("/uploadTest")
     @ResponseBody
-    public ResponseVO uploadTest(@RequestParam("file") MultipartFile file,@RequestParam("captcha") String captcha,HttpServletRequest httpServletRequest){
-        if(!(captcha.toLowerCase()).equals(String.valueOf(httpServletRequest.getSession().getAttribute("captchaCode")).toLowerCase())){
-            return ResponseVO.buildFailure("验证码错误");
-        }
-        try{
+    public ResponseVO uploadTest(@RequestParam MultipartFile file){
+        try {
             if(!file.isEmpty()){
                 String fileType= Objects.requireNonNull(file.getOriginalFilename()).split("\\.")[file.getOriginalFilename().split("\\.").length-1];
                 FileInputStream inputStream=(FileInputStream)file.getInputStream();
-                String path= UploadUtil.uploadImage(inputStream,MyStringUtil.getRandomString(10)+"."+fileType);
+                String path=UploadUtil.uploadFile(inputStream,MyStringUtil.getRandomString(10)+"."+fileType);
                 System.out.println(path);
-                return ResponseVO.buildSuccess("上传成功,文件路径为"+path);
+                return ResponseVO.buildSuccess("文件已成功上传至云盘,链接为:"+path);
             }
         }catch (Exception ignored){
 
         }
-        return ResponseVO.buildFailure("上传失败,请再试一次");
+        return ResponseVO.buildFailure("文件上传失败,请再试一次");
     }
-
-    @GetMapping("/userTest")
-    public String userTest(){
-        return "userTest";
-    }
-    @PostMapping("/userTest")
-    @ResponseBody
-    public ResponseVO userTest(@RequestParam String email,@RequestParam String password){
-        return userService.addUser(new User(email,password));
-    }
-
-    @GetMapping("/getAllUsers")
-    @ResponseBody
-    public ResponseVO getAllUsers(){
-        return userService.getAllUsers();
-    }
-
-    @PostMapping("/deleteUserByEmail")
-    @ResponseBody
-    public ResponseVO deleteUserByEmail(@RequestParam String email){
-        return userService.deleteUserByEmail(email);
-    }
-    @GetMapping("/test")
-    public String test(){
-        return "testPage";
-    }
-
-
 }

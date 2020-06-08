@@ -8,5 +8,7 @@ public interface UserService {
 
     ResponseVO getAllUsers();
 
-    ResponseVO deleteUserByEmail(String email);
+    ResponseVO deleteUser(String userName,String email);
+
+    ResponseVO updatePassword(String email,String oldPassword,String newPassword);
 }
