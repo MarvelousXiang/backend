@@ -149,6 +149,8 @@ public class ResponseVO {
 
 本项目的后端将不使用微信的云开发功能，所有后端都运行在自己的服务器上(也就是你自己的电脑)，后续我会把整个后端项目部署在我自己的服务器上。
 
+后端服务已经上传至云服务器，网址为http://www.jwargrave.com/ ，前端可以原本需要在自己的电脑上启动spring boot项目，然后前端部分向http://localhost:80 请求服务，现在可以直接向http://www.jwargrave.com/ 请求，比如要获取所有Dish，就可以直接向http://www.jwargrave.com/api/dish/getAllDishes 发送GET请求，POST请求也一样。
+
 ### User模块接口
 
 以下接口都需要加/api/user前缀
