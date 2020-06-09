@@ -1,6 +1,7 @@
 package com.example.demo.controller.user;
 
 import com.example.demo.bl.user.UserService;
+import com.example.demo.enums.UserType;
 import com.example.demo.po.User;
 import com.example.demo.vo.RegisterVO;
 import com.example.demo.vo.ResponseVO;
@@ -32,5 +33,10 @@ public class UserController {
     @PostMapping("/updatePassword")
     public ResponseVO updatePassword(@RequestParam String email,@RequestParam String oldPassword,@RequestParam String newPassword){
         return userService.updatePassword(email, oldPassword, newPassword);
+    }
+
+    @GetMapping("/getAllUsersOfType")
+    public ResponseVO getAllUsersOfType(@RequestParam String userType){
+        return userService.getAllUserByUserType(UserType.valueOf(userType));
     }
 }

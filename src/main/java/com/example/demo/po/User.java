@@ -1,5 +1,6 @@
 package com.example.demo.po;
 
+import com.example.demo.enums.UserType;
 import com.example.demo.vo.RegisterVO;
 
 import javax.persistence.*;
@@ -19,6 +20,16 @@ public class User {
     private String password;
     @Column
     private String createDate;
+    @Column
+    private UserType userType;
+
+    public UserType getUserType() {
+        return userType;
+    }
+
+    public void setUserType(UserType userType) {
+        this.userType = userType;
+    }
 
     public String getCreateDate() {
         return createDate;
@@ -71,5 +82,6 @@ public class User {
         this.userName=registerVO.getUserName();
         this.email=registerVO.getEmail();
         this.password=registerVO.getPassword();
+        this.userType=UserType.valueOf(registerVO.getUserType());
     }
 }

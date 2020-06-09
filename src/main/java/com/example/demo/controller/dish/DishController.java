@@ -41,4 +41,8 @@ public class DishController {
     public ResponseVO deleteDish(@RequestParam Integer dishId){
         return dishService.deleteDish(dishId);
     }
+    @GetMapping("/getAllDishesSortByNumOfLikes")
+    public ResponseVO getAllDishesSortByNumOfLikes(@RequestParam(defaultValue = "",required = false) String category,@RequestParam(defaultValue = "",required = false) String taste){
+        return dishService.getAllDishesSortByNumOfLikes(category,taste);
+    }
 }

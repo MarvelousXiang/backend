@@ -1,7 +1,10 @@
 package com.example.demo.blImpl.user;
 
 import com.example.demo.bl.user.UserService;
+import com.example.demo.data.comment.CommentDao;
+import com.example.demo.data.likes.LikesDao;
 import com.example.demo.data.user.UserDao;
+import com.example.demo.enums.UserType;
 import com.example.demo.po.User;
 import com.example.demo.vo.ResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,10 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private CommentDao commentDao;
+    @Autowired
+    private LikesDao likesDao;
     @Override
     public ResponseVO addUser(User user) {
         try{
@@ -36,11 +43,15 @@ public class UserServiceImpl implements UserService {
         if(!"".equals(userName)&&!"".equals(email)){
             return ResponseVO.buildFailure("未知异常,删除失败");
         }
-        int r = userDao.deleteUser(userName,email);
-        if(r==1){
+        try {
+            User tempUser = userDao.getUserByUserNameOrEmail(userName, email).get(0);
+            userDao.deleteUser(userName,email);
+            commentDao.deleteByUserId(tempUser.getId());
+            likesDao.deleteByUserId(tempUser.getId());
             return ResponseVO.buildSuccess("用户删除成功");
+        }catch (Exception e){
+            return ResponseVO.buildFailure("用户不存在,删除失败");
         }
-        return ResponseVO.buildFailure("用户不存在,删除失败");
     }
 
     @Override
@@ -50,5 +61,14 @@ public class UserServiceImpl implements UserService {
             return ResponseVO.buildSuccess("密码修改成功");
         }
         return ResponseVO.buildFailure("密码修改失败");
+    }
+
+    @Override
+    public ResponseVO getAllUserByUserType(UserType userType) {
+        try {
+            return ResponseVO.buildSuccess(userDao.getAllUserByUserType(userType));
+        }catch (Exception e){
+            return ResponseVO.buildFailure("用户类型不存在");
+        }
     }
 }

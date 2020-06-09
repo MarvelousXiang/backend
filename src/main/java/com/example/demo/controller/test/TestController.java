@@ -92,12 +92,7 @@ public class TestController {
     @GetMapping("/tempTest")
     @ResponseBody
     public String test(){
-        DishVO dishVO=new DishVO();
-        dishVO.setName("ads");
-        dishVO.setDishTaste(DishTaste.valueOf("la"));
-        dishVO.setDishCategory(DishCategory.Shucai);
-        dishVO.setPrice(23.21);
-        dishService.addDish(dishVO);
-        return "ss";
+
+        return "test";
     }
 }

@@ -23,15 +23,11 @@ public class LikesController {
 
     @GetMapping("/getAllLikeDishesOfUser")
     public ResponseVO getAllLikeDishesOfUser(@RequestParam Integer userId){
-        //TODO
-        //ResponseVO的content类型为List<Dish>
-        return null;
+        return likesService.getAllLikeDishesOfUser(userId);
     }
 
     @GetMapping("/getAllLikeUsersOfDish")
     public ResponseVO getAllLikeUsersOfDish(@RequestParam Integer dishId){
-        //TODO
-        //ResponseVO的content类型为List<User>
-        return null;
+        return likesService.getAllLikeUsersOfDish(dishId);
     }
 }

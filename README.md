@@ -44,6 +44,8 @@ public class User {
     private String password;
     @Column
     private String createDate;
+    @Column
+    private UserType userType;
 }
 ```
 
@@ -58,6 +60,24 @@ public class Likes {
     private Integer dishId;
     @Column
     private Integer userId;
+}
+```
+
+### Comment:评论，记录用户对某一道菜的评论
+
+```java
+public class Comment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    @Column
+    private Integer userId;
+    @Column
+    private Integer dishId;
+    @Column(columnDefinition = "TEXT")
+    private String content;
+    @Column
+    private String createDate;
 }
 ```
 
@@ -133,73 +153,73 @@ public class ResponseVO {
 
 以下接口都需要加/api/user前缀
 
-| 请求URL         | 参数                                                         | 请求方法 | 作用             | 返回值ResponseVO的一些说明 | 是否完成 |
-| --------------- | ------------------------------------------------------------ | -------- | ---------------- | -------------------------- | -------- |
-| /getAllUsers    |                                                              | GET      | 返回所有用户列表 | content类型为List<User>    | 是       |
-| /deleteUser     | userName,email(这两个参数只要也只能传一个就行了)(都是String) | POST     | 删除一个用户     | content类型为String        | 是       |
-| /register       | RegisterVO(详见具体代码)                                     | POST     | 注册一个用户     | content类型为String        | 是       |
-| /updatePassword | email,oldPassword,newPassword(都是String)                    | POST     | 更新用户密码     | content类型为String        | 是       |
-|                 |                                                              |          |                  |                            |          |
-|                 |                                                              |          |                  |                            |          |
-|                 |                                                              |          |                  |                            |          |
-|                 |                                                              |          |                  |                            |          |
-|                 |                                                              |          |                  |                            |          |
-|                 |                                                              |          |                  |                            |          |
-|                 |                                                              |          |                  |                            |          |
-|                 |                                                              |          |                  |                            |          |
-|                 |                                                              |          |                  |                            |          |
-|                 |                                                              |          |                  |                            |          |
-|                 |                                                              |          |                  |                            |          |
-|                 |                                                              |          |                  |                            |          |
-|                 |                                                              |          |                  |                            |          |
-|                 |                                                              |          |                  |                            |          |
-|                 |                                                              |          |                  |                            |          |
-|                 |                                                              |          |                  |                            |          |
-|                 |                                                              |          |                  |                            |          |
-|                 |                                                              |          |                  |                            |          |
-|                 |                                                              |          |                  |                            |          |
-|                 |                                                              |          |                  |                            |          |
-|                 |                                                              |          |                  |                            |          |
-|                 |                                                              |          |                  |                            |          |
-|                 |                                                              |          |                  |                            |          |
-|                 |                                                              |          |                  |                            |          |
-|                 |                                                              |          |                  |                            |          |
+| 请求URL            | 参数                                                         | 请求方法 | 作用                   | 返回值ResponseVO的一些说明 | 是否完成 |
+| ------------------ | ------------------------------------------------------------ | -------- | ---------------------- | -------------------------- | -------- |
+| /getAllUsers       |                                                              | GET      | 返回所有用户列表       | content类型为List<User>    | 是       |
+| /deleteUser        | userName,email(这两个参数只要也只能传一个就行了)(都是String) | POST     | 删除一个用户           | content类型为String        | 是       |
+| /register          | RegisterVO(详见具体代码)                                     | POST     | 注册一个用户           | content类型为String        | 是       |
+| /updatePassword    | email,oldPassword,newPassword(都是String)                    | POST     | 更新用户密码           | content类型为String        | 是       |
+| /getAllUsersOfType | String userType                                              | GET      | 获取某种类型的所有用户 | content类型为List<User>    | 是       |
+|                    |                                                              |          |                        |                            |          |
+|                    |                                                              |          |                        |                            |          |
+|                    |                                                              |          |                        |                            |          |
+|                    |                                                              |          |                        |                            |          |
+|                    |                                                              |          |                        |                            |          |
+|                    |                                                              |          |                        |                            |          |
+|                    |                                                              |          |                        |                            |          |
+|                    |                                                              |          |                        |                            |          |
+|                    |                                                              |          |                        |                            |          |
+|                    |                                                              |          |                        |                            |          |
+|                    |                                                              |          |                        |                            |          |
+|                    |                                                              |          |                        |                            |          |
+|                    |                                                              |          |                        |                            |          |
+|                    |                                                              |          |                        |                            |          |
+|                    |                                                              |          |                        |                            |          |
+|                    |                                                              |          |                        |                            |          |
+|                    |                                                              |          |                        |                            |          |
+|                    |                                                              |          |                        |                            |          |
+|                    |                                                              |          |                        |                            |          |
+|                    |                                                              |          |                        |                            |          |
+|                    |                                                              |          |                        |                            |          |
+|                    |                                                              |          |                        |                            |          |
+|                    |                                                              |          |                        |                            |          |
+|                    |                                                              |          |                        |                            |          |
 
 ### Dish模块接口
 
 以下接口都需要加/api/dish前缀
 
-| 请求URL            | 参数             | 请求方法 | 作用                                               | 返回值ResponseVO的一些说明 | 是否完成 |
-| ------------------ | ---------------- | -------- | -------------------------------------------------- | -------------------------- | -------- |
-| /getAllDishes      |                  | GET      | 获取所有菜品                                       | content类型为List<Dish>    | 是       |
-| /getDishById       | 菜品id(Integer)  | GET      | 根据菜品id获得相应的菜品                           | content类型为Dish          | 是       |
-| /getDishByName     | name(String)     | GET      | 根据菜品名称获得相应的菜品列表(因为可能有菜品重名) | content类型为List<Dish>    | 是       |
-| /getDishByCategory | category(String) | GET      | 根据菜品类型获得相应的菜品列表                     | content类型为List<Dish>    | 是       |
-| /getDishByTaste    | taste(String)    | GET      | 根据菜品味道获得相应的菜品列表                     | content类型为List<Dish>    | 是       |
-| /addDish           | DishVO(详见代码) | POST     | 添加一种菜品                                       | content为String            | 是       |
-| /deleteDish        | dishId(Integer)  | POST     | 删除一种菜品                                       | content为String            | 是       |
-|                    |                  |          |                                                    |                            |          |
-|                    |                  |          |                                                    |                            |          |
-|                    |                  |          |                                                    |                            |          |
-|                    |                  |          |                                                    |                            |          |
-|                    |                  |          |                                                    |                            |          |
-|                    |                  |          |                                                    |                            |          |
-|                    |                  |          |                                                    |                            |          |
-|                    |                  |          |                                                    |                            |          |
-|                    |                  |          |                                                    |                            |          |
-|                    |                  |          |                                                    |                            |          |
-|                    |                  |          |                                                    |                            |          |
-|                    |                  |          |                                                    |                            |          |
-|                    |                  |          |                                                    |                            |          |
-|                    |                  |          |                                                    |                            |          |
-|                    |                  |          |                                                    |                            |          |
-|                    |                  |          |                                                    |                            |          |
-|                    |                  |          |                                                    |                            |          |
-|                    |                  |          |                                                    |                            |          |
-|                    |                  |          |                                                    |                            |          |
-|                    |                  |          |                                                    |                            |          |
-|                    |                  |          |                                                    |                            |          |
-|                    |                  |          |                                                    |                            |          |
+| 请求URL                       | 参数                         | 请求方法 | 作用                                                         | 返回值ResponseVO的一些说明 | 是否完成 |
+| ----------------------------- | ---------------------------- | -------- | ------------------------------------------------------------ | -------------------------- | -------- |
+| /getAllDishes                 |                              | GET      | 获取所有菜品                                                 | content类型为List<Dish>    | 是       |
+| /getDishById                  | 菜品id(Integer)              | GET      | 根据菜品id获得相应的菜品                                     | content类型为Dish          | 是       |
+| /getDishByName                | name(String)                 | GET      | 根据菜品名称获得相应的菜品列表(因为可能有菜品重名)           | content类型为List<Dish>    | 是       |
+| /getDishByCategory            | category(String)             | GET      | 根据菜品类型获得相应的菜品列表                               | content类型为List<Dish>    | 是       |
+| /getDishByTaste               | taste(String)                | GET      | 根据菜品味道获得相应的菜品列表                               | content类型为List<Dish>    | 是       |
+| /addDish                      | DishVO(详见代码)             | POST     | 添加一种菜品                                                 | content为String            | 是       |
+| /deleteDish                   | dishId(Integer)              | POST     | 删除一种菜品                                                 | content为String            | 是       |
+| /getAllDishesSortByNumOfLikes | String category,String taste | GET      | 获取特定种类、特定味道的菜品列表，并按收藏人数降序排列，种类和味道这两个参数都不是必须的，如不传某个参数，则不会对才参数进行过滤。 | content为List<Dish>        | 是       |
+|                               |                              |          |                                                              |                            |          |
+|                               |                              |          |                                                              |                            |          |
+|                               |                              |          |                                                              |                            |          |
+|                               |                              |          |                                                              |                            |          |
+|                               |                              |          |                                                              |                            |          |
+|                               |                              |          |                                                              |                            |          |
+|                               |                              |          |                                                              |                            |          |
+|                               |                              |          |                                                              |                            |          |
+|                               |                              |          |                                                              |                            |          |
+|                               |                              |          |                                                              |                            |          |
+|                               |                              |          |                                                              |                            |          |
+|                               |                              |          |                                                              |                            |          |
+|                               |                              |          |                                                              |                            |          |
+|                               |                              |          |                                                              |                            |          |
+|                               |                              |          |                                                              |                            |          |
+|                               |                              |          |                                                              |                            |          |
+|                               |                              |          |                                                              |                            |          |
+|                               |                              |          |                                                              |                            |          |
+|                               |                              |          |                                                              |                            |          |
+|                               |                              |          |                                                              |                            |          |
+|                               |                              |          |                                                              |                            |          |
 
 ### Likes模块接口
 
@@ -236,6 +256,26 @@ public class ResponseVO {
 |                         |                         |          |                            |                            |          |
 |                         |                         |          |                            |                            |          |
 |                         |                         |          |                            |                            |          |
+
+### Comment模块接口
+
+以下接口都需要加/api/comment前缀
+
+| 请求URL                         | 参数                    | 请求方法 | 作用                             | 返回值ResponseVO的一些说明 | 是否完成 |
+| ------------------------------- | ----------------------- | -------- | -------------------------------- | -------------------------- | -------- |
+| /addComment                     | CommentVO(详见具体代码) | POST     | 添加一条评论                     | content类型为String        | 是       |
+| /deleteOneCommentById           | id                      | POST     | 删除一条评论                     | content类型为String        | 是       |
+| /deleteCommentByUserIdAndDishId | userId,dishId           | POST     | 删除某个用户在某道菜下的所有评论 | content类型为String        | 是       |
+| /deleteAllCommentOfUser         | userId                  | POST     | 删除某个用户的所有评论           | content类型为String        | 是       |
+| /deleteAllCommentOfDish         | dishId                  | POST     | 删除某道菜的所有评论             | content类型为String        | 是       |
+| /getAllCommentOfUser            | userId                  | GET      | 获取某个用户的所有评论           | content类型为List<Comment> | 是       |
+| /getAllCommentOfDish            | dishId                  | GET      | 获取某道菜的所有评论             | content类型为List<Comment> | 是       |
+| /getCommentByUserIdAndDishId    | userId,dishId           | GET      | 获取某个用户在某道菜下的所有评论 | content类型为List<Comment> | 是       |
+|                                 |                         |          |                                  |                            |          |
+|                                 |                         |          |                                  |                            |          |
+|                                 |                         |          |                                  |                            |          |
+
+
 
 ## 面向后端开发人员的一些说明
 

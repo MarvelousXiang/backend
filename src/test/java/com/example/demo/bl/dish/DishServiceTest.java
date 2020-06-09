@@ -13,12 +13,7 @@ class DishServiceTest {
     private DishService dishService;
     @Test
     public void test1(){
-        DishVO dishVO=new DishVO();
-        dishVO.setName("dish1");
-        dishVO.setPrice(1.2);
-        dishVO.setDishCategory(DishCategory.Shucai);
-        dishVO.setDishTaste(DishTaste.la);
-        dishService.addDish(dishVO);
+
     }
 
 }

@@ -1,10 +1,13 @@
 package com.example.demo.blImpl.dish;
 
 import com.example.demo.bl.dish.DishService;
+import com.example.demo.data.comment.CommentDao;
 import com.example.demo.data.dish.DishDao;
+import com.example.demo.data.likes.LikesDao;
 import com.example.demo.enums.DishCategory;
 import com.example.demo.enums.DishTaste;
 import com.example.demo.po.Dish;
+import com.example.demo.po.Likes;
 import com.example.demo.vo.DishVO;
 import com.example.demo.vo.ResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +21,10 @@ import java.util.Date;
 public class DishServiceImpl implements DishService {
     @Autowired
     private DishDao dishDao;
+    @Autowired
+    private CommentDao commentDao;
+    @Autowired
+    private LikesDao likesDao;
     @Override
     public ResponseVO getAllDishes() {
         return ResponseVO.buildSuccess(dishDao.findAll());
@@ -37,8 +44,8 @@ public class DishServiceImpl implements DishService {
     public ResponseVO addDish(DishVO dishVO) {
         Dish dish=new Dish();
         dish.setName(dishVO.getName());
-        dish.setDishCategory(dishVO.getDishCategory());
-        dish.setDishTaste(dishVO.getDishTaste());
+        dish.setDishCategory(DishCategory.valueOf(dishVO.getDishCategory()));
+        dish.setDishTaste(DishTaste.valueOf(dishVO.getDishTaste()));
         dish.setPrice(dishVO.getPrice());
         dish.setNumOfLikes(0);
         dish.setCreateDate((new SimpleDateFormat("yyyy-MM-dd")).format(new Date(System.currentTimeMillis())));
@@ -68,8 +75,22 @@ public class DishServiceImpl implements DishService {
     public ResponseVO deleteDish(Integer id) {
         int r = dishDao.deleteDish(id);
         if(r==1){
+            commentDao.deleteByDishId(id);
+            likesDao.deleteByDishId(id);
             return ResponseVO.buildSuccess("菜品删除成功");
         }
         return ResponseVO.buildFailure("菜品删除失败");
+    }
+
+    @Override
+    public ResponseVO getAllDishesSortByNumOfLikes(String category,String taste) {
+        if("".equals(category)&&"".equals(taste)){
+            return ResponseVO.buildSuccess(dishDao.getAllDishesSortByNumOfLikes());
+        }else if("".equals(category)){
+            return ResponseVO.buildSuccess(dishDao.getAllDishesOfTasteSortByNumOfLikes(DishTaste.valueOf(taste)));
+        }else if("".equals(taste)){
+            return ResponseVO.buildSuccess(dishDao.getAllDishesOfCategorySortByNumOfLikes(DishCategory.valueOf(category)));
+        }
+        return ResponseVO.buildSuccess(dishDao.getAllDishesOfCategoryAndTasteSortByNumOfLikes(DishCategory.valueOf(category),DishTaste.valueOf(taste)));
     }
 }

@@ -38,4 +38,16 @@ public interface DishDao extends JpaRepository<Dish,Integer> {
     @Modifying
     @Transactional
     int decreaseDishLikesNum(@Param("id") Integer id);
+
+    @Query("select d from Dish d order by d.numOfLikes desc ")
+    List<Dish> getAllDishesSortByNumOfLikes();
+
+    @Query("select d from Dish d where d.dishTaste=:dishTaste order by d.numOfLikes desc")
+    List<Dish> getAllDishesOfTasteSortByNumOfLikes(@Param("dishTaste") DishTaste dishTaste);
+
+    @Query("select d from Dish d where d.dishCategory=:dishCategory order by d.numOfLikes desc")
+    List<Dish> getAllDishesOfCategorySortByNumOfLikes(@Param("dishCategory") DishCategory dishCategory);
+
+    @Query("select d from Dish d where d.dishCategory=:dishCategory and d.dishTaste=:dishTaste order by d.numOfLikes desc")
+    List<Dish> getAllDishesOfCategoryAndTasteSortByNumOfLikes(@Param("dishCategory") DishCategory dishCategory,@Param("dishTaste") DishTaste dishTaste);
 }

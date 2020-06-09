@@ -3,10 +3,16 @@ package com.example.demo.blImpl.likes;
 import com.example.demo.bl.likes.LikesService;
 import com.example.demo.data.dish.DishDao;
 import com.example.demo.data.likes.LikesDao;
+import com.example.demo.data.user.UserDao;
+import com.example.demo.po.Dish;
 import com.example.demo.po.Likes;
+import com.example.demo.po.User;
 import com.example.demo.vo.ResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class LikesServiceImpl implements LikesService {
@@ -14,6 +20,8 @@ public class LikesServiceImpl implements LikesService {
     private LikesDao likesDao;
     @Autowired
     private DishDao dishDao;
+    @Autowired
+    private UserDao userDao;
 
     @Override
     public ResponseVO addLike(Integer userId, Integer dishId) {
@@ -39,5 +47,25 @@ public class LikesServiceImpl implements LikesService {
         }
         likesDao.deleteLike(userId,dishId);
         return ResponseVO.buildSuccess("取消收藏成功");
+    }
+
+    @Override
+    public ResponseVO getAllLikeDishesOfUser(Integer userId) {
+        List<Likes> likes = likesDao.getAllLikesOfUser(userId);
+        List<Dish> r=new ArrayList<>();
+        for(Likes l:likes){
+            r.add(dishDao.getDishById(l.getDishId()).get(0));
+        }
+        return ResponseVO.buildSuccess(r);
+    }
+
+    @Override
+    public ResponseVO getAllLikeUsersOfDish(Integer dishId) {
+        List<Likes> likes=likesDao.getAllLikesOfDish(dishId);
+        List<User> r=new ArrayList<>();
+        for(Likes l:likes){
+            r.add(userDao.getUserById(l.getUserId()).get(0));
+        }
+        return ResponseVO.buildSuccess(r);
     }
 }

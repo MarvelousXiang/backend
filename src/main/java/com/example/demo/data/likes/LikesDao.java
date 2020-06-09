@@ -17,4 +17,20 @@ public interface LikesDao extends JpaRepository<Likes,Integer> {
     @Modifying
     @Transactional
     int deleteLike(@Param("userId") Integer userId,@Param("dishId") Integer dishId);
+
+    @Query("select l from Likes l where l.userId=:userId")
+    List<Likes> getAllLikesOfUser(@Param("userId") Integer userId);
+
+    @Query("select l from Likes l where l.dishId=:dishId")
+    List<Likes> getAllLikesOfDish(@Param("dishId") Integer dishId);
+
+    @Query("delete from Likes l where l.dishId=:dishId")
+    @Modifying
+    @Transactional
+    int deleteByDishId(@Param("dishId") Integer dishId);
+
+    @Query("delete from Likes l where l.userId=:userId")
+    @Modifying
+    @Transactional
+    int deleteByUserId(@Param("userId") Integer userId);
 }

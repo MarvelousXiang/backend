@@ -19,4 +19,6 @@ public interface DishService {
     ResponseVO getDishByTaste(DishTaste dishTaste);
 
     ResponseVO deleteDish(Integer id);
+
+    ResponseVO getAllDishesSortByNumOfLikes(String category,String taste);
 }

@@ -5,8 +5,8 @@ import com.example.demo.enums.DishTaste;
 
 public class DishVO {
     private String name;
-    private DishCategory dishCategory;
-    private DishTaste dishTaste;
+    private String dishCategory;
+    private String dishTaste;
     private Double price;
 
     public String getName() {
@@ -17,19 +17,19 @@ public class DishVO {
         this.name = name;
     }
 
-    public DishCategory getDishCategory() {
+    public String getDishCategory() {
         return dishCategory;
     }
 
-    public void setDishCategory(DishCategory dishCategory) {
+    public void setDishCategory(String dishCategory) {
         this.dishCategory = dishCategory;
     }
 
-    public DishTaste getDishTaste() {
+    public String getDishTaste() {
         return dishTaste;
     }
 
-    public void setDishTaste(DishTaste dishTaste) {
+    public void setDishTaste(String dishTaste) {
         this.dishTaste = dishTaste;
     }
 
