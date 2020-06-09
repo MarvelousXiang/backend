@@ -229,8 +229,8 @@ public class ResponseVO {
 | ----------------------- | ----------------------- | -------- | -------------------------- | -------------------------- | -------- |
 | /addLike                | userId，dishId(Integer) | POST     | 用户添加某一道菜到收藏夹   | content类型为String        | 是       |
 | /deleteLike             | userId,dishId(Integer)  | POST     | 用户取消收藏某一道菜       | content类型为String        | 是       |
-| /getAllLikeDishesOfUser | userId(Integer)         | GET      | 获取某个用户的所有收藏的菜 | content类型为List<Dish>    | 否       |
-| /getAllLikeUsersOfDish  | dishId(Integer)         | GET      | 获取收藏某道菜的所有用户   | content类型为List<User>    | 否       |
+| /getAllLikeDishesOfUser | userId(Integer)         | GET      | 获取某个用户的所有收藏的菜 | content类型为List<Dish>    | 是       |
+| /getAllLikeUsersOfDish  | dishId(Integer)         | GET      | 获取收藏某道菜的所有用户   | content类型为List<User>    | 是       |
 |                         |                         |          |                            |                            |          |
 |                         |                         |          |                            |                            |          |
 |                         |                         |          |                            |                            |          |
